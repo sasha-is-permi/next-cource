@@ -3,15 +3,18 @@ import Link from "next/link";
 import styles from "./page.module.css";
 import { getProducts } from "../../services/api";
 
-export default async function RacketsPage() {
-  const response = await getProducts({ limit: 20 });
-  const rackets = response.isError ? [] : (response.data || []);
+export default async function Top10Page() {
+  // Fetching 100 to ensure we get all Top 10 items. 
+  // Ideally API supports filtering.
+  const response = await getProducts({ limit: 100 });
+  const allRackets = response.isError ? [] : (response.data || []);
+  const topRackets = allRackets.filter((r) => r.top10).slice(0, 10);
 
   return (
     <div className={styles.page}>
-      <h1>Все ракетки</h1>
+      <h1>Топ 10 ракеток</h1>
       <div className="card-grid">
-        {rackets.map((racket) => (
+        {topRackets.map((racket) => (
           <Link href={`/racket/${racket.id}`} key={racket.id} className={styles.card}>
             <div className={styles.imageWrapper}>
                <Image
@@ -29,3 +32,4 @@ export default async function RacketsPage() {
     </div>
   );
 }
+
