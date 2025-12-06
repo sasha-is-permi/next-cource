@@ -31,7 +31,7 @@ export default async function RacketPage({ params }: PageProps) {
           src={racket.imageUrl}
           alt={racket.name}
           fill
-          style={{ objectFit: "contain" }}
+          className={styles.image}
           priority
         />
       </div>

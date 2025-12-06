@@ -52,6 +52,10 @@
   margin-bottom: 1rem;
 }
 
+.image {
+  object-fit: contain;
+}
+
 .card h3 {
   font-size: 1.1rem;
   margin-bottom: 0.5rem;
@@ -63,4 +67,3 @@
   color: var(--primary-color);
   font-size: 1.2rem;
 }
-

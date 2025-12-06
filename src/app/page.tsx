@@ -23,7 +23,7 @@ export default function Home() {
                     src={racket.imageUrl}
                     alt={racket.name}
                     fill
-                    style={{ objectFit: "contain" }}
+                    className={styles.image}
                  />
               </div>
               <h3>{racket.name}</h3>
