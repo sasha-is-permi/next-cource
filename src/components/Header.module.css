@@ -1,0 +1,26 @@
+.header {
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 1rem 0;
+}
+
+.nav {
+  display: flex;
+  gap: 2rem;
+}
+
+.nav a {
+  font-weight: 500;
+  color: var(--text-color);
+  transition: color 0.3s;
+}
+
+.nav a:hover {
+  color: var(--primary-color);
+}
+
+.active {
+  color: var(--primary-color) !important;
+  font-weight: bold;
+}
+
