@@ -1,29 +1,19 @@
-import Image from "next/image";
-import Link from "next/link";
 import styles from "./page.module.css";
-import { rackets } from "../../../materials/mock";
+import { getProducts } from "../../services/api";
+import RacketList from "../../components/RacketList";
+import ButtonLink from "../../components/ButtonLink";
 
-export default function RacketsPage() {
+export default async function RacketsPage() {
+  const response = await getProducts({ limit: 20 });
+  const rackets = response.isError ? [] : (response.data || []);
+
   return (
     <div className={styles.page}>
-      <h1>Все ракетки</h1>
-      <div className="card-grid">
-        {rackets.map((racket) => (
-          <Link href={`/racket/${racket.id}`} key={racket.id} className={styles.card}>
-            <div className={styles.imageWrapper}>
-               <Image
-                  src={racket.imageUrl}
-                  alt={racket.name}
-                  fill
-                  className={styles.image}
-               />
-            </div>
-            <h3>{racket.name}</h3>
-            <p className={styles.price}>{racket.price} $</p>
-          </Link>
-        ))}
-      </div>
+      <RacketList title="Все ракетки" rackets={rackets} />
+      
+      <ButtonLink href="/">
+        Перейти к популярным ракеткам
+      </ButtonLink>
     </div>
   );
 }
-

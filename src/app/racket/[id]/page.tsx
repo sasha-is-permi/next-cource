@@ -1,16 +1,7 @@
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import styles from "./page.module.css";
-import { rackets } from "../../../../materials/mock";
-
-// Generate static params for the first 3 rackets
-export async function generateStaticParams() {
-  return [
-    { id: '1' },
-    { id: '2' },
-    { id: '3' },
-  ];
-}
+import { getProductById } from "../../../services/api";
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -18,11 +9,13 @@ interface PageProps {
 
 export default async function RacketPage({ params }: PageProps) {
   const { id } = await params;
-  const racket = rackets.find((r) => r.id === Number(id));
+  const response = await getProductById({ id });
 
-  if (!racket) {
+  if (response.isError || !response.data) {
     notFound();
   }
+
+  const racket = response.data;
 
   return (
     <div className={styles.container}>
@@ -63,4 +56,3 @@ export default async function RacketPage({ params }: PageProps) {
     </div>
   );
 }
-

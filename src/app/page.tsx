@@ -1,10 +1,11 @@
-import Image from "next/image";
-import Link from "next/link";
 import styles from "./page.module.css";
-import { rackets } from "../../materials/mock";
+import { getTop10Products } from "../services/api";
+import RacketList from "../components/RacketList";
+import ButtonLink from "../components/ButtonLink";
 
-export default function Home() {
-  const topRackets = rackets.filter((r) => r.top10);
+export default async function Home() {
+  const top10Response = await getTop10Products();
+  const topRackets = top10Response.isError ? [] : (top10Response.data || []);
 
   return (
     <div className={styles.page}>
@@ -13,25 +14,11 @@ export default function Home() {
         <p>Лучшие ракетки для профессионалов и любителей.</p>
       </section>
 
-      <section className={styles.featured}>
-        <h2>Популярные ракетки</h2>
-        <div className="card-grid">
-          {topRackets.map((racket) => (
-            <Link href={`/racket/${racket.id}`} key={racket.id} className={styles.card}>
-              <div className={styles.imageWrapper}>
-                 <Image
-                    src={racket.imageUrl}
-                    alt={racket.name}
-                    fill
-                    className={styles.image}
-                 />
-              </div>
-              <h3>{racket.name}</h3>
-              <p className={styles.price}>{racket.price} $</p>
-            </Link>
-          ))}
-        </div>
-      </section>
+      <RacketList title="Популярные ракетки" rackets={topRackets} />
+      
+      <ButtonLink href="/rackets">
+        Перейти ко всем ракеткам
+      </ButtonLink>
     </div>
   );
 }
