@@ -20,9 +20,14 @@ export default function Header() {
           >
             Все ракетки
           </Link>
+          <Link
+            href="/top-10"
+            className={pathname === "/top-10" ? styles.active : ""}
+          >
+            Топ 10
+          </Link>
         </nav>
       </div>
     </header>
   );
 }
-
