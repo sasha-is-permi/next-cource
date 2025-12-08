@@ -30,55 +30,70 @@ type Params = {
 export const getProductById = async ({
   id,
 }: { id: string }): Promise<Response<IRacket>> => {
-  const result = await fetch(`${BASE_API_URL}/product/${id}`, { cache: 'no-store' });
+  try {
+    const result = await fetch(`${BASE_API_URL}/product/${id}`, { cache: 'no-store' });
 
-  if (result.status === 404) {
-    return { isError: false, data: undefined } as any;
-  }
+    if (result.status === 404) {
+      return { isError: false, data: undefined } as any;
+    }
 
-  if (!result.ok) {
+    if (!result.ok) {
+      return { isError: true, data: undefined };
+    }
+
+    const data: { product: IRacket } = await result.json();
+
+    return { isError: false, data: data.product };
+  } catch (error) {
+    console.error("Ошибка получения данных", error);
     return { isError: true, data: undefined };
   }
-
-  const data: { product: IRacket } = await result.json();
-
-  return { isError: false, data: data.product };
 };
 
 export const getTop10Products = async (): Promise<Response<IRacket[]>> => {
-  const result = await fetch(`${BASE_API_URL}/top-10`, { cache: 'no-store' });
+  try {
+    const result = await fetch(`${BASE_API_URL}/top-10`, { cache: 'no-store' });
 
-  if (result.status === 404) {
-    return { isError: false, data: [] };
-  }
+    if (result.status === 404) {
+      return { isError: false, data: [] };
+    }
 
-  if (!result.ok) {
+    if (!result.ok) {
+      return { isError: true, data: undefined };
+    }
+
+    const data: IRacket[] = await result.json();
+
+    return { isError: false, data };
+  } catch (error) {
+    console.error("Ошибка получения данных:", error);
     return { isError: true, data: undefined };
   }
-
-  const data: IRacket[] = await result.json();
-
-  return { isError: false, data };
 };
 
 export const getProducts = async ({
   limit = 10,
   page = 1,
 }: { limit?: number; page?: number } = {}): Promise<Response<IRacket[]>> => {
-  const result = await fetch(
-    `${BASE_API_URL}/products?page=${page}&limit=${limit}`,
-    { cache: 'no-store' }
-  );
+  try {
+    const result = await fetch(
+      `${BASE_API_URL}/products?page=${page}&limit=${limit}`,
+      { cache: 'no-store' }
+    );
 
-  if (result.status === 404) {
-    return { isError: false, data: [] };
-  }
+    if (result.status === 404) {
+      return { isError: false, data: [] };
+    }
 
-  if (!result.ok) {
+    if (!result.ok) {
+      return { isError: true, data: undefined };
+    }
+
+    const data: IRacket[] = await result.json();
+
+    return { isError: false, data };
+  } catch (error) {
+    console.error("Ошибка получения данных:", error);
     return { isError: true, data: undefined };
   }
-
-  const data: IRacket[] = await result.json();
-
-  return { isError: false, data };
 };
