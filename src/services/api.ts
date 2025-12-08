@@ -45,7 +45,21 @@ export const getProductById = async ({
   return { isError: false, data: data.product };
 };
 
+export const getTop10Products = async (): Promise<Response<IRacket[]>> => {
+  const result = await fetch(`${BASE_API_URL}/top-10`, { cache: 'no-store' });
 
+  if (result.status === 404) {
+    return { isError: false, data: [] };
+  }
+
+  if (!result.ok) {
+    return { isError: true, data: undefined };
+  }
+
+  const data: IRacket[] = await result.json();
+
+  return { isError: false, data };
+};
 
 export const getProducts = async ({
   limit = 10,

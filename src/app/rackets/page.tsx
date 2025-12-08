@@ -1,7 +1,6 @@
-import Image from "next/image";
-import Link from "next/link";
 import styles from "./page.module.css";
 import { getProducts } from "../../services/api";
+import RacketList from "../../components/RacketList";
 
 export default async function RacketsPage() {
   const response = await getProducts({ limit: 20 });
@@ -9,23 +8,7 @@ export default async function RacketsPage() {
 
   return (
     <div className={styles.page}>
-      <h1>Все ракетки</h1>
-      <div className="card-grid">
-        {rackets.map((racket) => (
-          <Link href={`/racket/${racket.id}`} key={racket.id} className={styles.card}>
-            <div className={styles.imageWrapper}>
-               <Image
-                  src={racket.imageUrl}
-                  alt={racket.name}
-                  fill
-                  className={styles.image}
-               />
-            </div>
-            <h3>{racket.name}</h3>
-            <p className={styles.price}>{racket.price} $</p>
-          </Link>
-        ))}
-      </div>
+      <RacketList title="Все ракетки" rackets={rackets} />
     </div>
   );
 }
