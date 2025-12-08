@@ -18,7 +18,7 @@ export default function Header() {
             href="/rackets"
             className={pathname === "/rackets" ? styles.active : ""}
           >
-            Ракетки
+            Все ракетки
           </Link>
         </nav>
       </div>
