@@ -52,7 +52,7 @@ export const getProductById = async ({
 
 export const getTop10Products = async (): Promise<Response<IRacket[]>> => {
   try {
-    const result = await fetch(`${BASE_API_URL}/top-10`, { cache: 'no-store' });
+    const result = await fetch(`${BASE_API_URL}/top-10`, { next: { tags: ['top10'] } });
 
     if (result.status === 404) {
       return { isError: false, data: [] };
