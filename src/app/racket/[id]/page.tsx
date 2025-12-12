@@ -2,9 +2,30 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import styles from "./page.module.css";
 import { getProductById } from "../../../services/api";
+import { Metadata } from "next";
 
 interface PageProps {
   params: Promise<{ id: string }>;
+}
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { id } = await params;
+  const response = await getProductById({ id });
+
+  if (response.isError || !response.data) {
+    return {
+      title: "Ракетка не найдена",
+    };
+  }
+
+  const racket = response.data;
+  return {
+    title: `${racket.name} - купить`,
+    description: racket.description,
+    openGraph: {
+      images: [racket.imageUrl],
+    },
+  };
 }
 
 export default async function RacketPage({ params }: PageProps) {
